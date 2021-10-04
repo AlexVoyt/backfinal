@@ -1,0 +1,15 @@
+{% extends('base.html.twig') %}
+
+{% block body %}
+    <h1>Welcome home</h1>
+    {% if app.user %}
+    <h1>Things you can do:</h1>
+    <ul class="list-group">
+        <li class="list-group-item"> <a href="{{ path('groups.browse') }}">Browse groups <a/> or <a href="{{ path('groups.create') }}">create your own</a></li>
+        <li class="list-group-item">Speak with the people</li>
+        <li class="list-group-item">More staff later!</li>
+    </ul> 
+    {% else %}
+    <p><a href="{{ path('app_login') }}">Login</a> or <a href="{{ path('register') }}">register</a></p>
+    {% endif %}
+{% endblock %}

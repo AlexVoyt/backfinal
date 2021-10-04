@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+    <h1>{{ group.name }}</h1>
+    <h2>Leader: {{ group.leader.username }}</h2>
+    <h2>Message of the day: {{ group.motd }}</h2> 
+
+    <h2>Members of this group:</h2>
+
+    {% for member in group.Members %}
+        <ul class="list-group d-flex justify-content-between ">
+            <li class="list-group-item"> {{ member.username }} 
+            {% if member == group.leader %}
+                <span class="badge badge-primary badge-pill">Leader</span> 
+            {% endif %}
+            </li>
+        </ul> 
+    {% endfor %}
+
+{% endblock %}

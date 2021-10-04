@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <h2>All groups</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>Leader</td>
+                <td>Group name</td>
+                <td>Action</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for group in groups %}
+                <tr>
+                    <td>{{ group.leader.username }}</td>
+                    <td><a href="{{ path('groups.show', {name: group.name}) }}">{{ group.name }} </a></td>
+                    {% if app.user in group.Members %}
+                        {% if app.user == group.leader %}
+                            <td><a href="{{ path('groups.delete', {name: group.name}) }}" class="badge badge-danger badge-pill">Disband</a></td>
+                        {% else %}
+                            <td><a href="{{ path('groups.leave', {name: group.name}) }}" class="badge badge-danger badge-pill">Leave</a></td>
+                        {%  endif %}
+                    {% else %}
+                        <td><a href="{{ path('groups.join', {name: group.name, user: app.user}) }}" class="badge badge-primary badge-pill">Join</a> </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ path('groups.create') }}"> Create your own group! </a>
+
+
+{% endblock %}
