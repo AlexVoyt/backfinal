@@ -19,4 +19,28 @@
         </ul> 
     {% endfor %}
 
+    <h2>Messages in this group:</h2>
+    
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>Sender</td>
+                <td>Message</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for message in group.groupMessages %}
+                <tr>
+                    <td>{{ message.sender.username }}</td>
+                    <td>{{ message.message }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table
+
+  <div class="form-group">
+    {{ form(message_form) }}
+  </div>
+
 {% endblock %}

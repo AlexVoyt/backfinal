@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\GroupRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -41,9 +42,15 @@ class Group
      */
     private $members;
 
+    /**
+     * @ORM\OneToMany(targetEntity=GroupMessage::class, mappedBy="location", orphanRemoval=true)
+     */
+    private $groupMessages;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
+        $this->groupMessages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -101,5 +108,35 @@ class Group
     public function removeMember(User $member)
     {
         $this->members->removeElement($member);
+    }
+
+    /**
+     * @return Collection|GroupMessage[]
+     */
+    public function getGroupMessages(): Collection
+    {
+        return $this->groupMessages;
+    }
+
+    public function addGroupMessage(GroupMessage $groupMessage): self
+    {
+        if (!$this->groupMessages->contains($groupMessage)) {
+            $this->groupMessages[] = $groupMessage;
+            $groupMessage->setLocation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGroupMessage(GroupMessage $groupMessage): self
+    {
+        if ($this->groupMessages->removeElement($groupMessage)) {
+            // set the owning side to null (unless already changed)
+            if ($groupMessage->getLocation() === $this) {
+                $groupMessage->setLocation(null);
+            }
+        }
+
+        return $this;
     }
 }
